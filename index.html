@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腾讯云 AI Agent 助力 OPC 创业专场 — 嘉宾专属页面</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1E3A8A;
+            --primary-blue-light: #3B82F6;
+            --lavender: #C4B5FD;
+            --lavender-light: #EDE9FE;
+            --bg-ice: #EEF2FF;
+            --bg-white: #FFFFFF;
+            --accent-green: #00C35A;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(196, 181, 253, 0.4);
+            --shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
+            --shadow-hover: 0 16px 48px rgba(30, 58, 138, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-ice) 30%, #F5F3FF 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px 40px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.85;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(238,242,255,0.6) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-blue), var(--lavender));
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-blue), #7C3AED, var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(14px, 2.5vw, 18px);
+            color: var(--text-gray);
+            margin-bottom: 24px;
+        }
+
+        .hero-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .hero-info span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .organizers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .organizers img {
+            height: 36px;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+
+        .organizers img:hover {
+            opacity: 1;
+        }
+
+        .organizers .divider {
+            width: 1px;
+            height: 30px;
+            background: var(--lavender);
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .section-desc {
+            text-align: center;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+
+        /* ===== GUEST CARDS ===== */
+        .guests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .guest-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guest-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue-light), var(--lavender));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .guest-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--lavender);
+        }
+
+        .guest-card:hover::before {
+            opacity: 1;
+        }
+
+        .guest-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--lavender-light);
+            margin-bottom: 16px;
+            transition: transform 0.3s;
+        }
+
+        .guest-card:hover .guest-avatar {
+            transform: scale(1.05);
+        }
+
+        .guest-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 4px;
+        }
+
+        .guest-title {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .guest-topic {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bg-ice), var(--lavender-light));
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--primary-blue), #7C3AED);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+        }
+
+        /* ===== CHECKIN SECTION ===== */
+        .checkin-section {
+            text-align: center;
+        }
+
+        .qr-container {
+            display: inline-block;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qr-container:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--bg-ice), var(--lavender-light));
+            border: 2px dashed var(--lavender);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .qr-label {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .qr-hint {
+            font-size: 12px;
+            color: var(--lavender);
+            margin-top: 8px;
+        }
+
+        /* ===== ROUTE SECTION ===== */
+        .route-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .route-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .route-map {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, var(--bg-ice), var(--lavender-light));
+            border: 2px dashed var(--lavender);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .route-map:hover {
+            border-color: var(--primary-blue-light);
+            background: linear-gradient(135deg, #DBEAFE, var(--lavender-light));
+        }
+
+        .route-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .route-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .route-info li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .route-info li:last-child {
+            border-bottom: none;
+        }
+
+        .route-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--lavender-light);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-nav:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(0, 195, 90, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--primary-blue);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logos span {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-ice);
+            color: var(--text-gray);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--lavender-light);
+            color: var(--primary-blue);
+        }
+
+        .modal-qr {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, var(--bg-ice), var(--lavender-light));
+            border: 2px dashed var(--lavender);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* ===== GUEST DETAIL MODAL ===== */
+        .guest-modal-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--lavender-light);
+            margin-bottom: 16px;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), #7C3AED);
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        .back-to-top.visible {
+            display: flex;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 360px;
+                padding: 40px 16px 30px;
+            }
+
+            .guests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .organizers img {
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+    <img src="images/hero_bg.png" alt="背景" class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <span class="hero-badge">2026 腾讯云城市峰会 · 长沙站</span>
+        <h1>腾讯云 AI Agent<br>助力 OPC 创业专场</h1>
+        <p class="hero-subtitle">// AI 赋能创业，人人皆可入局 //</p>
+        <div class="hero-info">
+            <span>📅 2026.06.12 &nbsp; 14:00 – 17:00</span>
+            <span>📍 长沙梅溪湖金茂豪华精选酒店</span>
+        </div>
+        <div class="organizers">
+            <span style="font-size:14px;color:var(--text-gray);">主办方</span>
+            <span style="font-weight:700;color:var(--primary-blue);">腾讯云</span>
+            <div class="divider"></div>
+            <span style="font-weight:700;color:var(--accent-green);">创芽 OPC 社区</span>
+        </div>
+    </div>
+</header>
+
+<!-- ===== GUESTS ===== -->
+<section>
+    <h2 class="section-title fade-in">特邀嘉宾</h2>
+    <p class="section-desc fade-in">行业先锋齐聚，共话 AI Agent 创业新范式</p>
+    <div class="guests-grid">
+        <!-- Guest 1 -->
+        <div class="guest-card fade-in" onclick="openGuestModal(0)">
+            <img src="images/guest_1.png" alt="张明远" class="guest-avatar">
+            <div class="guest-name">张明远</div>
+            <div class="guest-title">腾讯云 AI 产品总监</div>
+            <div class="guest-topic">🎤 AI Agent 平台架构与生态赋能</div>
+            <button class="btn-download" onclick="event.stopPropagation(); alert('资料将在活动后开放下载')">
+                📄 下载演讲资料
+            </button>
+        </div>
+        <!-- Guest 2 -->
+        <div class="guest-card fade-in" onclick="openGuestModal(1)">
+            <img src="images/guest_2.png" alt="李思涵" class="guest-avatar">
+            <div class="guest-name">李思涵</div>
+            <div class="guest-title">创芽 OPC 社区联合创始人</div>
+            <div class="guest-topic">🎤 一人公司如何用 AI 实现 10x 增长</div>
+            <button class="btn-download" onclick="event.stopPropagation(); alert('资料将在活动后开放下载')">
+                📄 下载演讲资料
+            </button>
+        </div>
+        <!-- Guest 3 -->
+        <div class="guest-card fade-in" onclick="openGuestModal(2)">
+            <img src="images/guest_3.png" alt="陈宇轩" class="guest-avatar">
+            <div class="guest-name">陈宇轩</div>
+            <div class="guest-title">独立开发者 / AI Native 创业者</div>
+            <div class="guest-topic">🎤 从 0 到 1：我的 AI Agent 产品实战</div>
+            <button class="btn-download" onclick="event.stopPropagation(); alert('资料将在活动后开放下载')">
+                📄 下载演讲资料
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHECKIN ===== -->
+<section class="checkin-section">
+    <h2 class="section-title fade-in">签到入场</h2>
+    <p class="section-desc fade-in">请在入场时出示以下二维码完成签到</p>
+    <div class="qr-container fade-in" onclick="openQrModal()">
+        <div class="qr-placeholder">
+            <span>📱 签到二维码<br>（点击放大）</span>
+        </div>
+        <div class="qr-label">扫码签到 · 快速入场</div>
+        <div class="qr-hint">💡 点击可放大查看</div>
+    </div>
+</section>
+
+<!-- ===== ROUTE ===== -->
+<section>
+    <h2 class="section-title fade-in">现场路线</h2>
+    <p class="section-desc fade-in">长沙梅溪湖金茂豪华精选酒店 · 3F 国际会议厅</p>
+    <div class="route-card fade-in">
+        <div class="route-map" onclick="window.open('https://uri.amap.com/search?keyword=长沙梅溪湖金茂豪华精选酒店', '_blank')">
+            🗺️ 地图占位<br>（点击打开高德地图）
+        </div>
+        <div class="route-info">
+            <h3>📍 到达指引</h3>
+            <ul>
+                <li>
+                    <span class="route-icon">🚇</span>
+                    <span><strong>地铁</strong>：2号线「梅溪湖西站」2号出口，步行约800米</span>
+                </li>
+                <li>
+                    <span class="route-icon">🚗</span>
+                    <span><strong>自驾</strong>：导航至「长沙梅溪湖金茂豪华精选酒店」，B1停车场</span>
+                </li>
+                <li>
+                    <span class="route-icon">🏢</span>
+                    <span><strong>入场</strong>：酒店大堂乘电梯至3F → 右转 → 国际会议厅</span>
+                </li>
+                <li>
+                    <span class="route-icon">📞</span>
+                    <span><strong>联系</strong>：现场引导员 138-xxxx-xxxx（活动当日）</span>
+                </li>
+            </ul>
+            <a href="https://uri.amap.com/search?keyword=长沙梅溪湖金茂豪华精选酒店" target="_blank" class="btn-nav">
+                🧭 打开导航
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="footer-logos">
+        <span>联合主办</span>
+        <span style="font-weight:700;">腾讯云</span>
+        <span>×</span>
+        <span style="font-weight:700;">创芽 OPC 社区</span>
+    </div>
+    <div class="footer-text">
+        腾讯全球数字生态大会 · 2026 城市峰会 · 长沙站<br>
+        AI Agent 助力 OPC 创业专场<br><br>
+        © 2026 腾讯云 & 创芽 OPC 社区 · All Rights Reserved
+    </div>
+</footer>
+
+<!-- ===== QR MODAL ===== -->
+<div class="modal-overlay" id="qrModal" onclick="closeModal('qrModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal('qrModal')">✕</button>
+        <div class="modal-qr">📱 签到二维码<br>（替换为实际二维码图片）</div>
+        <div class="modal-title">扫码签到</div>
+        <div class="modal-desc">请在入场时向工作人员出示此二维码</div>
+    </div>
+</div>
+
+<!-- ===== GUEST DETAIL MODAL ===== -->
+<div class="modal-overlay" id="guestModal" onclick="closeModal('guestModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal('guestModal')">✕</button>
+        <img id="guestModalAvatar" src="" alt="" class="guest-modal-avatar">
+        <div class="modal-title" id="guestModalName"></div>
+        <div class="modal-desc" id="guestModalTitle" style="margin-bottom:12px;"></div>
+        <div class="guest-topic" id="guestModalTopic" style="margin-bottom:16px;"></div>
+        <p id="guestModalBio" style="font-size:14px;color:var(--text-gray);line-height:1.8;"></p>
+    </div>
+</div>
+
+<!-- ===== BACK TO TOP ===== -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    // Guest data
+    const guests = [
+        {
+            name: '张明远',
+            title: '腾讯云 AI 产品总监',
+            topic: '🎤 AI Agent 平台架构与生态赋能',
+            avatar: 'images/guest_1.png',
+            bio: '拥有15年云计算与AI产品经验，主导腾讯云多款AI Agent产品的设计与落地。专注于将前沿AI技术转化为创业者可用的生产力工具。'
+        },
+        {
+            name: '李思涵',
+            title: '创芽 OPC 社区联合创始人',
+            topic: '🎤 一人公司如何用 AI 实现 10x 增长',
+            avatar: 'images/guest_2.png',
+            bio: '连续创业者，创芽OPC社区联合创始人。致力于帮助个人创业者（One Person Company）利用AI工具实现业务增长，已服务超过5000名独立创业者。'
+        },
+        {
+            name: '陈宇轩',
+            title: '独立开发者 / AI Native 创业者',
+            topic: '🎤 从 0 到 1：我的 AI Agent 产品实战',
+            avatar: 'images/guest_3.png',
+            bio: '95后独立开发者，一人团队打造多款AI Agent产品，月收入突破6位数。擅长用最小成本验证产品想法，是OPC创业理念的践行者。'
+        }
+    ];
+
+    // Open guest detail modal
+    function openGuestModal(index) {
+        const guest = guests[index];
+        document.getElementById('guestModalAvatar').src = guest.avatar;
+        document.getElementById('guestModalName').textContent = guest.name;
+        document.getElementById('guestModalTitle').textContent = guest.title;
+        document.getElementById('guestModalTopic').textContent = guest.topic;
+        document.getElementById('guestModalBio').textContent = guest.bio;
+        document.getElementById('guestModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Open QR modal
+    function openQrModal() {
+        document.getElementById('qrModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ESC to close modals
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                m.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+</script>
+
+</body>
+</html>
